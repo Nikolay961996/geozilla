@@ -1,4 +1,6 @@
-﻿namespace geozilla_api.Endpoints.GeneratorGeoJson;
+﻿using geozilla_bl.Services.Generation.Abstract;
+
+namespace geozilla_api.Endpoints.GeneratorGeoJson;
 
 public static class GeneratoGeoJsonApi
 {
@@ -10,8 +12,10 @@ public static class GeneratoGeoJsonApi
         return builder;
     }
 
-    private static string GenerateGeoJson()
+    private static async Task<string> GenerateGeoJson(IGeoJsonService service)
     {
-        return "Hi";
+        var result = await service.Generate("D://path/from/request");
+
+        return result;
     }
 }
