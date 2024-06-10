@@ -3,12 +3,13 @@ import { Button, Snackbar } from '@mui/material';
 
 const FileUploader = () => {
     const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 
     const handleFileUpload = (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
-            // Обработайте логику загрузки файла здесь
             setSnackbarOpen(true);
+            setUploadedFile(file);
         }
     };
 
@@ -31,6 +32,9 @@ const FileUploader = () => {
                 onClose={() => setSnackbarOpen(false)}
                 message="File uploaded successfully"
             />
+            <div>
+                {uploadedFile?.name} - {uploadedFile?.size}
+            </div>
         </div>
     );
 };
