@@ -1,7 +1,6 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Visualiser from "./components/Visualiser";
 
 function App() {
   return (
@@ -19,7 +18,6 @@ function App() {
         >
           Learn React
         </a>
-        <Visualiser/>
       </header>
     </div>
   );
