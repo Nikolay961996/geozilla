@@ -1,9 +1,12 @@
 import React, { useState, ChangeEvent } from 'react';
 import { Button, Snackbar } from '@mui/material';
 
-const FileUploader = () => {
+interface FileUploaderProps {
+    setUploadedFile: React.Dispatch<React.SetStateAction<File | null>>;
+}
+
+const FileUploader: React.FC<FileUploaderProps> = ({setUploadedFile}) => {
     const [snackbarOpen, setSnackbarOpen] = useState(false);
-    const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 
     const handleFileUpload = (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
@@ -16,7 +19,7 @@ const FileUploader = () => {
     return (
         <div>
             <input
-                accept=".b3dm"
+                accept=".b3dm, .json"
                 style={{ display: 'none' }}
                 id="raised-button-file"
                 type="file"
@@ -32,9 +35,6 @@ const FileUploader = () => {
                 onClose={() => setSnackbarOpen(false)}
                 message="File uploaded successfully"
             />
-            <div>
-                {uploadedFile?.name} - {uploadedFile?.size}
-            </div>
         </div>
     );
 };

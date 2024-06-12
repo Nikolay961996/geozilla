@@ -1,61 +1,25 @@
-import React, { useState } from 'react';
-import { TextField, Button, Snackbar } from '@mui/material';
+import React from 'react';
+import { TextField } from '@mui/material';
+import {LatLngString} from "../types/LatLng";
 
-const CoordinateInput = () => {
-    const [longitude, setLongitude] = useState('');
-    const [latitude, setLatitude] = useState('');
-    const [snackbarOpen, setSnackbarOpen] = useState(false);
-    const [error, setError] = useState('');
+interface CoordinateInputProps {
+    selectedCoords: LatLngString | null;
+    setSelectedCoords: React.Dispatch<React.SetStateAction<LatLngString | null>>;
+}
 
-    const handleSubmit = () => {
-        const coordinates = {
-            longitude: longitude,
-            latitude: latitude
-        };
-
-        fetch('/api/send-coordinates', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(coordinates)
-        })
-            .then(response => {
-                if (response.ok) {
-                    setSnackbarOpen(true);
-                    setLongitude('');
-                    setLatitude('');
-                    setError('');
-                } else {
-                    throw new Error('Не удалось отправить координаты');
-                }
-            })
-            .catch(error => {
-                console.error(error);
-                setError('Произошла ошибка при отправке координат');
-            });
-    };
+const CoordinateInput : React.FC<CoordinateInputProps> = ({selectedCoords, setSelectedCoords}) => {
 
     return (
         <div>
             <TextField
-                label="Долгота"
-                value={longitude}
-                onChange={(e) => setLongitude(e.target.value)}
+                label="Широта"
+                value={selectedCoords?.lat}
+                onChange={(e) => setSelectedCoords({lat: e.target.value, lng: selectedCoords?.lng})}
             />
             <TextField
-                label="Широта"
-                value={latitude}
-                onChange={(e) => setLatitude(e.target.value)}
-            />
-            <Button variant="contained" onClick={handleSubmit}>
-                Отправить координаты
-            </Button>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            <Snackbar
-                open={snackbarOpen}
-                onClose={() => setSnackbarOpen(false)}
-                message="Координаты успешно отправлены"
+                label="Долгота"
+                value={selectedCoords?.lng}
+                onChange={(e) => setSelectedCoords({lat: selectedCoords?.lat, lng: e.target.value})}
             />
         </div>
     );
