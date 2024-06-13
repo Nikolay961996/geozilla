@@ -10,7 +10,7 @@ namespace geozilla_bl.Services.Generation.Concrete
         private const string ConfigName = "Release";
 #endif
 
-        private const string DllName = $"../../../../geozilla-core/x64/{ConfigName}/geozilla-core.dll";
+        private const string DllName = $"../../../../../geozilla-core/x64/{ConfigName}/geozilla-core.dll";
 
         [LibraryImport(DllName, EntryPoint = "?GenerateGeoJson@@YAPEBDPEBD@Z")]
         [UnmanagedCallConv(CallConvs = [typeof(System.Runtime.CompilerServices.CallConvCdecl)])]
