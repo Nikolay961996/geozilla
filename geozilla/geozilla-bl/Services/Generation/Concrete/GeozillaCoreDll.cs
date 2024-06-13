@@ -20,7 +20,7 @@ namespace geozilla_bl.Services.Generation.Concrete
 
         [LibraryImport(DllName, EntryPoint = "?GenerateGeoJson@@YAPEBDPEBD@Z")]
         [UnmanagedCallConv(CallConvs = [typeof(System.Runtime.CompilerServices.CallConvCdecl)])]
-        public static partial IntPtr GenerateGeoJson([MarshalAs(UnmanagedType.LPStr)] string pathToB3dm);
+        public static partial IntPtr GenerateGeoJson([MarshalAs(UnmanagedType.LPStr)] string path);
 
         [LibraryImport(DllName, EntryPoint = "?FreeBuffer@@YAXPEBD@Z")]
         [UnmanagedCallConv(CallConvs = [typeof(System.Runtime.CompilerServices.CallConvCdecl)])]
