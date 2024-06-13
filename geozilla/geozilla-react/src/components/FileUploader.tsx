@@ -8,7 +8,7 @@ interface FileUploaderProps {
 const FileUploader: React.FC<FileUploaderProps> = ({setUploadedFile}) => {
     const [snackbarOpen, setSnackbarOpen] = useState(false);
 
-    const handleFileUpload = (event: ChangeEvent<HTMLInputElement>) => {
+    const handleFileUpload = async (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
             setSnackbarOpen(true);

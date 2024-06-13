@@ -5,7 +5,11 @@ import CoordinateInput from "./CoordinateInput";
 import {LatLngString} from "../types/LatLng";
 import {GenerateGeoJsonApi} from "../api/GenerateGeoJsonApi";
 
-const DataSender = () => {
+interface DataSenderProps {
+    setGeoJson: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const DataSender: React.FC<DataSenderProps> = ({setGeoJson}) => {
     const [uploadedFile, setUploadedFile] = useState<File | null>(null);
     const [selectedCoords, setSelectedCoords] = useState<LatLngString | null>(null);
     const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -24,6 +28,7 @@ const DataSender = () => {
                     setSelectedCoords({lat: '', lng: ''});
                     setUploadedFile(null);
                     setError('');
+                    setGeoJson(response.data);
                 } else {
                     throw new Error('Не удалось отправить координаты');
                 }

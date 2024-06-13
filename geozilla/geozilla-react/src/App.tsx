@@ -1,15 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
+import { Container, Box, Button } from '@mui/material';
+import FileUploader from './components/FileUploader';
+import CoordinateInput from './components/CoordinateInput';
+import MapViewer from './components/MapViewer';
 import DataSender from "./components/DataSender";
 
-function App() {
+const App = () => {
+    const [editorOpen, setEditorOpen] = useState(false);
+    const [geoJson, setGeoJson] = useState('');
+
   return (
     <div className="App">
-      <DataSender/>
+      <DataSender setGeoJson={setGeoJson}/>
+        <Container>
+            <Box marginTop={4} height="500px">
+                <MapViewer geoJson={geoJson} center={[51.505, -0.09]} zoom={13} />
+            </Box>
+            <Button variant="contained" onClick={() => setEditorOpen(true)}>
+                Open Zone Editor
+            </Button>
+        </Container>
     </div>
   );
 }
