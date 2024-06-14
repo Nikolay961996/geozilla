@@ -1,17 +1,18 @@
 import React, { useEffect } from 'react';
-import {GeoJSON, MapContainer, TileLayer} from 'react-leaflet';
+import {GeoJSON, MapContainer, TileLayer, GeoJSONProps} from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+import {GeoJsonObject} from "geojson";
 
 interface MapViewerProps {
     center: [number, number];
     zoom: number;
-    geoJson: string;
+    geoJson: GeoJsonObject | null;
 }
 
 const MapViewer: React.FC<MapViewerProps> = ({ center, zoom , geoJson}) => {
 
-    const geoJsonData = JSON.parse(geoJson);
+    //const geoJsonData = JSON.parse(geoJson);
 
     useEffect(() => {
         // Убеждаемся, что Leaflet использует правильные иконки
@@ -24,6 +25,15 @@ const MapViewer: React.FC<MapViewerProps> = ({ center, zoom , geoJson}) => {
         });
     }, []);
 
+    const geoJsonStyle: GeoJSONProps['style'] = (feature) => {
+        return {
+            color: "#ee5858", // Цвет линии (stroke)
+            weight: 2, // Толщина линии
+            fillColor: "#a11ae0", // Цвет заполнения (fill)
+            fillOpacity: 0.5, // Прозрачность заполнения
+        };
+    };
+
     return (
         <MapContainer center={center} zoom={zoom} style={{ height: '100%', width: '100%' }}>
             <TileLayer
@@ -31,10 +41,10 @@ const MapViewer: React.FC<MapViewerProps> = ({ center, zoom , geoJson}) => {
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             />
 
-            <GeoJSON data={geoJsonData}/>
-
+            {geoJson && <GeoJSON data={geoJson} style={geoJsonStyle} />}
         </MapContainer>
     );
-};
+
+}
 
 export default MapViewer;

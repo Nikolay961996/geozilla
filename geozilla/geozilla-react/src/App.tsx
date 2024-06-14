@@ -9,10 +9,11 @@ import FileUploader from './components/FileUploader';
 import CoordinateInput from './components/CoordinateInput';
 import MapViewer from './components/MapViewer';
 import DataSender from "./components/DataSender";
+import {GeoJsonObject} from "geojson";
 
 const App = () => {
     const [editorOpen, setEditorOpen] = useState(false);
-    const [geoJson, setGeoJson] = useState('');
+    const [geoJson, setGeoJson] = useState<GeoJsonObject | null>(null);
 
   return (
     <div className="App">
