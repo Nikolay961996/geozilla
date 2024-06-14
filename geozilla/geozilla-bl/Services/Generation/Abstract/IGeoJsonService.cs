@@ -2,5 +2,5 @@
 
 public interface IGeoJsonService
 {
-    Task<string> Generate(string pathToB3dm);
+    Task<string> Generate(string path);
 }
