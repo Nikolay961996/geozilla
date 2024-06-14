@@ -20,7 +20,7 @@ const App = () => {
       <DataSender setGeoJson={setGeoJson}/>
         <Container>
             <Box marginTop={4} height="500px">
-                <MapViewer geoJson={geoJson} center={[51.505, -0.09]} zoom={13} />
+                <MapViewer geoJson={geoJson} center={[56.1322200, 47.2519400]} zoom={10} />
             </Box>
             <Button variant="contained" onClick={() => setEditorOpen(true)}>
                 Open Zone Editor

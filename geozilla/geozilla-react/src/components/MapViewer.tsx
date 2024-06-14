@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import {GeoJSON, MapContainer, TileLayer, GeoJSONProps} from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import L from 'leaflet';
+import L, {PathOptions} from 'leaflet';
 import {GeoJsonObject} from "geojson";
+import * as geojson from "geojson";
 
 interface MapViewerProps {
     center: [number, number];
@@ -34,17 +35,21 @@ const MapViewer: React.FC<MapViewerProps> = ({ center, zoom , geoJson}) => {
         };
     };
 
+    const colorize = (feature?: geojson.Feature<geojson.GeometryObject, any> | undefined): PathOptions => {
+        return {
+            color: feature!.properties.fill,
+        };
+    }
+
     return (
         <MapContainer center={center} zoom={zoom} style={{ height: '100%', width: '100%' }}>
             <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             />
-
-            {geoJson && <GeoJSON data={geoJson} style={geoJsonStyle} />}
+            {geoJson && <GeoJSON data={geoJson} style={colorize} />}
         </MapContainer>
     );
-
 }
 
 export default MapViewer;
