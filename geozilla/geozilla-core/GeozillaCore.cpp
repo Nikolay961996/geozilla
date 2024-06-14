@@ -36,11 +36,11 @@ std::vector<std::byte> ReadFile(const std::filesystem::path& fileName)
 
 const char* GenerateGeoJson(const char* path)
 {
-    auto data = ReadFile("F:/personal/Hackaton/Resources/FGM_HACKATON/tileset_hacaton.json");
-    auto* tilesetReader = new Cesium3DTilesReader::TilesetReader();
-    auto tileResult = tilesetReader->readFromJson(data);
-    if (!tileResult.value)
-        return nullptr;
+    //auto data = ReadFile("F:/personal/Hackaton/Resources/FGM_HACKATON/tileset_hacaton.json");
+    //auto* tilesetReader = new Cesium3DTilesReader::TilesetReader();
+    //auto tileResult = tilesetReader->readFromJson(data);
+    //if (!tileResult.value)
+    //    return nullptr;
 
     std::string result = "{}";
     return ConvertToRawMemory(result);
