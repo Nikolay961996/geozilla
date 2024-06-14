@@ -1,5 +1,3 @@
-#include "Pch.h"
-
 #include "GeozillaCore.h"
 
 #include <string>
@@ -18,7 +16,7 @@ const char* ConvertToRawMemory(const std::string& data)
 
 } // namespace
 
-const char* GenerateGeoJson(const char* pathToB3dm)
+const char* GenerateGeoJson(const char* path)
 {
     std::string result = "{}";
     return ConvertToRawMemory(result);
