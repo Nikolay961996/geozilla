@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react';
-import {GeoJSON, MapContainer, TileLayer, GeoJSONProps} from 'react-leaflet';
+import {GeoJSON, MapContainer, TileLayer, useMap} from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import L, {PathOptions} from 'leaflet';
 import {GeoJsonObject} from "geojson";
 import * as geojson from "geojson";
+import "leaflet/dist/leaflet.css";
+import L, {PathOptions} from 'leaflet';
+import "@geoman-io/leaflet-geoman-free";
+import "@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css";
 
 interface MapViewerProps {
     center: [number, number];
@@ -13,7 +16,6 @@ interface MapViewerProps {
 
 const MapViewer: React.FC<MapViewerProps> = ({ center, zoom , geoJson}) => {
 
-    //const geoJsonData = JSON.parse(geoJson);
 
     useEffect(() => {
         // Убеждаемся, что Leaflet использует правильные иконки
@@ -26,15 +28,15 @@ const MapViewer: React.FC<MapViewerProps> = ({ center, zoom , geoJson}) => {
         });
     }, []);
 
-    const geoJsonStyle: GeoJSONProps['style'] = (feature) => {
-        return {
-            color: "#ee5858", // Цвет линии (stroke)
-            weight: 2, // Толщина линии
-            fillColor: "#a11ae0", // Цвет заполнения (fill)
-            fillOpacity: 0.5, // Прозрачность заполнения
-        };
-    };
-
+    function MapSettings() {
+        const map = useMap();
+        map.pm.addControls({
+            position: 'topleft',
+            drawCircleMarker: false,
+            rotateMode: false,
+        });
+        return null;
+    }
     const colorize = (feature?: geojson.Feature<geojson.GeometryObject, any> | undefined): PathOptions => {
         return {
             color: feature!.properties.fill,
@@ -48,6 +50,7 @@ const MapViewer: React.FC<MapViewerProps> = ({ center, zoom , geoJson}) => {
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             />
             {geoJson && <GeoJSON data={geoJson} style={colorize} />}
+            <MapSettings/>
         </MapContainer>
     );
 }
