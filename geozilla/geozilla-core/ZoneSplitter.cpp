@@ -86,3 +86,19 @@ std::string ZoneSplitter::CreateGeoJson(const std::vector<Zone>& zones) {
 
     return result;
 }
+
+//cv::Mat ZoneSplitter::PointCloudToImage(const pcl::PointCloud<pcl::PointXYZ>::Ptr& cloud) {
+//    int width = 500;  // Ширина изображения
+//    int height = 500; // Высота изображения
+//    cv::Mat image(height, width, CV_8UC1, cv::Scalar(0));
+//
+//    for (const auto& point : cloud->points) {
+//        int x = static_cast<int>((point.x + 10) * 25);  // Преобразование координат
+//        int y = static_cast<int>((point.y + 10) * 25);  // Преобразование координат
+//        if (x >= 0 && x < width && y >= 0 && y < height) {
+//            image.at<uchar>(y, x) = 255;
+//        }
+//    }
+//
+//    return image;
+//}
