@@ -1,1 +1,20 @@
-add_subdirectory(cesium-native)
+function(set_folder_property DIR)
+    get_property(TARGETS DIRECTORY "${DIR}" PROPERTY BUILDSYSTEM_TARGETS)
+    foreach(TARGET_NAME IN LISTS TARGETS)
+        message(STATUS "Target: ${TARGET_NAME}")
+        set_target_properties(${TARGET_NAME} PROPERTIES FOLDER "External")
+    endforeach()
+
+    get_property(SUBDIRS DIRECTORY "${DIR}" PROPERTY SUBDIRECTORIES)
+    foreach(SUBDIR IN LISTS SUBDIRS)
+        set_folder_property("${SUBDIR}")
+    endforeach()
+endfunction()
+
+function(add_submodule DIR)
+    add_subdirectory(${DIR})
+    set_folder_property(${DIR})
+endfunction()
+
+add_submodule(cesium-native)
+add_submodule(pcl)

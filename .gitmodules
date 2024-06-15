@@ -1,3 +1,6 @@
 [submodule "geozilla/gozilla-core/external/cesium-native"]
 	path = geozilla/gozilla-core/external/cesium-native
 	url = https://github.com/CesiumGS/cesium-native.git
+[submodule "geozilla/gozilla-core/external/pcl"]
+	path = geozilla/gozilla-core/external/pcl
+	url = https://github.com/PointCloudLibrary/pcl.git
