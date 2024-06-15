@@ -1,0 +1,141 @@
+<mxfile host="app.diagrams.net" modified="2024-06-15T16:37:43.680Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36" etag="gSHvMNEoVKufiuCYR40q" version="24.4.13" type="device">
+  <diagram name="Page-1" id="M91X0Wo2LLbtKQasG1lk">
+    <mxGraphModel dx="2280" dy="781" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="jeAuWKo_oYQMD799-JWV-1" value="front" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;" vertex="1" parent="1">
+          <mxGeometry x="200" y="20" width="640" height="370" as="geometry" />
+        </mxCell>
+        <mxCell id="jeAuWKo_oYQMD799-JWV-2" value="npm" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="720" y="40" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="jeAuWKo_oYQMD799-JWV-3" value="leaflet" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="720" y="320" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="jeAuWKo_oYQMD799-JWV-5" value="react" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="720" y="110" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="jeAuWKo_oYQMD799-JWV-6" value="material UI" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="720" y="180" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="jeAuWKo_oYQMD799-JWV-7" value="axios" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="720" y="250" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="jeAuWKo_oYQMD799-JWV-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="jeAuWKo_oYQMD799-JWV-8" target="jeAuWKo_oYQMD799-JWV-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="jeAuWKo_oYQMD799-JWV-19" value="&lt;span style=&quot;font-size: 12px; background-color: rgb(251, 251, 251);&quot;&gt;file, coords&lt;/span&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="jeAuWKo_oYQMD799-JWV-15">
+          <mxGeometry x="-0.6084" relative="1" as="geometry">
+            <mxPoint y="-49" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="jeAuWKo_oYQMD799-JWV-8" value="Загрузка b3dm И координат" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="300" y="120" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="jeAuWKo_oYQMD799-JWV-9" value="back" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;" vertex="1" parent="1">
+          <mxGeometry x="200" y="420" width="640" height="550" as="geometry" />
+        </mxCell>
+        <mxCell id="jeAuWKo_oYQMD799-JWV-10" value="C++" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="220" y="650" width="600" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="jeAuWKo_oYQMD799-JWV-11" value="C#" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="220" y="470" width="600" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="jeAuWKo_oYQMD799-JWV-12" value="ASP.NET" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="700" y="490" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="jeAuWKo_oYQMD799-JWV-13" value="Swagger" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="700" y="560" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="jeAuWKo_oYQMD799-JWV-17" value="GeoJson" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="jeAuWKo_oYQMD799-JWV-14" target="jeAuWKo_oYQMD799-JWV-8">
+          <mxGeometry x="0.7" relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="380" y="460" />
+              <mxPoint x="380" y="460" />
+            </Array>
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="jeAuWKo_oYQMD799-JWV-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="jeAuWKo_oYQMD799-JWV-14" target="jeAuWKo_oYQMD799-JWV-23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="jeAuWKo_oYQMD799-JWV-14" value="POST&amp;nbsp;generate/geo-json" style="html=1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="300" y="520" width="160" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="jeAuWKo_oYQMD799-JWV-20" value="PCL" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="700" y="670" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="jeAuWKo_oYQMD799-JWV-21" value="OpenCV" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="700" y="740" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="jeAuWKo_oYQMD799-JWV-22" value="Cesium&lt;div&gt;native&lt;/div&gt;" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="700" y="810" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="jeAuWKo_oYQMD799-JWV-30" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="jeAuWKo_oYQMD799-JWV-23" target="jeAuWKo_oYQMD799-JWV-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="jeAuWKo_oYQMD799-JWV-23" value="converter" style="html=1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="300" y="700" width="160" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="jeAuWKo_oYQMD799-JWV-26" value="point-cloud" style="html=1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="300" y="730" width="160" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="jeAuWKo_oYQMD799-JWV-27" value="segmentation" style="html=1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="300" y="760" width="160" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="jeAuWKo_oYQMD799-JWV-28" value="classification" style="html=1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="300" y="790" width="160" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="jeAuWKo_oYQMD799-JWV-29" value="generation" style="html=1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="300" y="820" width="160" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="jeAuWKo_oYQMD799-JWV-31" value="Вычисление текстурных признаков с помощью матрицы сопряженности уровня серого (GLCM, Grey Level Co-occurrence Matrix)" style="shape=note;size=20;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="-90" y="910" width="250" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="jeAuWKo_oYQMD799-JWV-32" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0;entryDx=250;entryDy=55;entryPerimeter=0;dashed=1;endArrow=none;endFill=0;" edge="1" parent="1" source="jeAuWKo_oYQMD799-JWV-28" target="jeAuWKo_oYQMD799-JWV-31">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="jeAuWKo_oYQMD799-JWV-33" value="nlohmann" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="700" y="880" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="jeAuWKo_oYQMD799-JWV-34" value="Создание формата GeoJson при помощи библиотеки nlohmann на основе внетренней запролненной структуры" style="shape=note;size=20;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="-90" y="1010" width="250" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="jeAuWKo_oYQMD799-JWV-35" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0;entryDx=250;entryDy=55;entryPerimeter=0;dashed=1;endArrow=none;endFill=0;" edge="1" parent="1" source="jeAuWKo_oYQMD799-JWV-29" target="jeAuWKo_oYQMD799-JWV-34">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="210" y="950" as="sourcePoint" />
+            <mxPoint x="-35" y="855" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="jeAuWKo_oYQMD799-JWV-36" value="Сегментация облака точек при помощи&amp;nbsp;SACSegmentation из библиотеки PCL" style="shape=note;size=20;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="-90" y="810" width="250" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="jeAuWKo_oYQMD799-JWV-37" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0;entryDx=250;entryDy=55;entryPerimeter=0;dashed=1;endArrow=none;endFill=0;" edge="1" parent="1" source="jeAuWKo_oYQMD799-JWV-27" target="jeAuWKo_oYQMD799-JWV-36">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="210" y="950" as="sourcePoint" />
+            <mxPoint x="30" y="845" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="jeAuWKo_oYQMD799-JWV-38" value="Конвертация B3DM в GLTF" style="shape=note;size=20;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="-90" y="610" width="250" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="jeAuWKo_oYQMD799-JWV-39" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0;entryDx=250;entryDy=55;entryPerimeter=0;dashed=1;endArrow=none;endFill=0;" edge="1" parent="1" source="jeAuWKo_oYQMD799-JWV-23" target="jeAuWKo_oYQMD799-JWV-38">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="210" y="920" as="sourcePoint" />
+            <mxPoint x="30" y="725" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="jeAuWKo_oYQMD799-JWV-40" value="Парсинг и извлечение геометрических точек, чтобы создать облако точек" style="shape=note;size=20;whiteSpace=wrap;html=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="-90" y="710" width="250" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="jeAuWKo_oYQMD799-JWV-41" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0;entryDx=250;entryDy=55;entryPerimeter=0;dashed=1;endArrow=none;endFill=0;" edge="1" parent="1" source="jeAuWKo_oYQMD799-JWV-26" target="jeAuWKo_oYQMD799-JWV-40">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="210" y="860" as="sourcePoint" />
+            <mxPoint x="20" y="465" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
