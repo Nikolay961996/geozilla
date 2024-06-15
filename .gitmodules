@@ -4,3 +4,7 @@
 [submodule "geozilla/gozilla-core/external/pcl"]
 	path = geozilla/gozilla-core/external/pcl
 	url = https://github.com/PointCloudLibrary/pcl.git
+[submodule "geozilla/gozilla-core/external/eigen"]
+	path = geozilla/gozilla-core/external/eigen
+	url = https://gitlab.com/libeigen/eigen.git
+	branch = 3.3

@@ -17,4 +17,5 @@ function(add_submodule DIR)
 endfunction()
 
 add_submodule(cesium-native)
+add_submodule(eigen)
 add_submodule(pcl)
