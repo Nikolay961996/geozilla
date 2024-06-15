@@ -1,7 +1,6 @@
 function(set_folder_property DIR)
     get_property(TARGETS DIRECTORY "${DIR}" PROPERTY BUILDSYSTEM_TARGETS)
     foreach(TARGET_NAME IN LISTS TARGETS)
-        message(STATUS "Target: ${TARGET_NAME}")
         set_target_properties(${TARGET_NAME} PROPERTIES FOLDER "External")
     endforeach()
 
