@@ -50,9 +50,59 @@ const MapViewer: React.FC<MapViewerProps> = ({ center, zoom , geoJson}) => {
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             />
             {geoJson && <GeoJSON data={geoJson} style={colorize} />}
+            <MapEditor geoJson={geoJson} />
             <MapSettings/>
         </MapContainer>
     );
 }
+
+interface MapEditorProps {
+    geoJson: GeoJsonObject | null;
+}
+
+const MapEditor: React.FC<MapEditorProps> = ({ geoJson }) => {
+    const map = useMap();
+    useEffect(() => {
+        if (!map) return;
+
+        // Подключаем Leaflet-Geoman к карте
+        map.pm.addControls({
+            position: 'topleft',
+            drawCircle: false,
+            drawMarker: false,
+            drawCircleMarker: false,
+        });
+
+        // Применяем стиль для GeoJSON
+        // const geoJsonStyle = {
+        //     color: '#ee5858',
+        //     weight: 2,
+        //     fillColor: '#a11ae0',
+        //     fillOpacity: 0.5,
+        // };
+        //
+        // // Добавляем GeoJSON слой на карту
+        // if (geoJson) {
+        //     L.geoJSON(geoJson, {
+        //         style: geoJsonStyle,
+        //     }).addTo(map);
+        // }
+
+        // Обработчики событий для геометрии
+        map.on('pm:create', (e) => {
+            console.log('Created shape:', e);
+        });
+
+        map.on('pm:edit', (e) => {
+            console.log('Edited shape:', e);
+        });
+
+        map.on('pm:remove', (e) => {
+            console.log('Removed shape:', e);
+        });
+    }, [map, geoJson]);
+
+    return null;
+};
 
 export default MapViewer;
