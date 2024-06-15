@@ -95,10 +95,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="GeozillaCore.h" />
+    <ClInclude Include="ZoneSplitter.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DllMain.cpp" />
     <ClCompile Include="GeozillaCore.cpp" />
+    <ClCompile Include="ZoneSplitter.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

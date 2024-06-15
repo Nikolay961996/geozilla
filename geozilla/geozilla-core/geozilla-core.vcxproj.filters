@@ -18,12 +18,18 @@
     <ClInclude Include="GeozillaCore.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ZoneSplitter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DllMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GeozillaCore.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ZoneSplitter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
