@@ -12,7 +12,7 @@ namespace gz::core
 {
 
 GeoModelLoader::GeoModelLoader()
-    : m_loaders{ std::make_shared<B3dmLoader>()}
+    : m_loaders{ std::make_shared<B3dmLoader>() }
 {
 }
 
