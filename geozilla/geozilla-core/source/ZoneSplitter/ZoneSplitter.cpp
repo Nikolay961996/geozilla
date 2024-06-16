@@ -4,7 +4,7 @@
 #include <pcl/filters/extract_indices.h>
 //#include <nlohmann/json.hpp>
 
-std::string ZoneSplitter::SplitToZones(pcl::PointCloud<pcl::PointXYZ>::Ptr pointCloud) {
+std::string ZoneSplitter::SplitToZones(pcl::PointCloud<pcl::PointXYZRGB>::Ptr pointCloud) {
     std::vector<Zone> zones = Split(pointCloud);
     for (auto& zone : zones) {
         zone.type = ClassifyZone(zone);
@@ -14,13 +14,13 @@ std::string ZoneSplitter::SplitToZones(pcl::PointCloud<pcl::PointXYZ>::Ptr point
     return geojson;
 }
 
-std::vector<Zone> ZoneSplitter::Split(pcl::PointCloud<pcl::PointXYZ>::Ptr pointCloud) {
+std::vector<Zone> ZoneSplitter::Split(pcl::PointCloud<pcl::PointXYZRGB>::Ptr pointCloud) {
     std::vector<Zone> zones;
 
-    pcl::SACSegmentation<pcl::PointXYZ> seg;
+    pcl::SACSegmentation<pcl::PointXYZRGB> seg;
     pcl::PointIndices::Ptr inliers(new pcl::PointIndices);
     pcl::ModelCoefficients::Ptr coefficients(new pcl::ModelCoefficients);
-    pcl::ExtractIndices<pcl::PointXYZ> extract;
+    pcl::ExtractIndices<pcl::PointXYZRGB> extract;
 
     seg.setOptimizeCoefficients(true);
     seg.setModelType(pcl::SACMODEL_PLANE);

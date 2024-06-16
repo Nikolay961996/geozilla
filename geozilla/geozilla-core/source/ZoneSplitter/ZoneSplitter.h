@@ -10,16 +10,16 @@
 
 struct Zone {
     std::string type;
-    std::vector<pcl::PointXYZ> points;
+    std::vector<pcl::PointXYZRGB> points;
 };
 
 class ZoneSplitter {
 public:
-    std::string SplitToZones(pcl::PointCloud<pcl::PointXYZ>::Ptr pointCloud);
+    std::string SplitToZones(pcl::PointCloud<pcl::PointXYZRGB>::Ptr pointCloud);
 
 private:
     // pcl
-    std::vector<Zone> Split(pcl::PointCloud<pcl::PointXYZ>::Ptr pointCloud);
+    std::vector<Zone> Split(pcl::PointCloud<pcl::PointXYZRGB>::Ptr pointCloud);
     std::string ClassifyZone(const Zone& sector);
     std::string CreateGeoJson(const std::vector<Zone>& zones);
 
