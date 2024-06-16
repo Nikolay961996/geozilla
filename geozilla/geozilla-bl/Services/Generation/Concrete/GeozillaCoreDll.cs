@@ -1,8 +1,9 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace geozilla_bl.Services.Generation.Concrete
 {
-    internal partial class GeozillaCoreDll
+    internal class GeozillaCoreDll
     {
 #if DEBUG
         private const string ConfigName = "Debug";
@@ -10,14 +11,22 @@ namespace geozilla_bl.Services.Generation.Concrete
         private const string ConfigName = "Release";
 #endif
 
-        private const string DllName = $"../../../../../geozilla-core/bin/{ConfigName}/geozilla-core.dll";
+        private const string DllName = "geozilla-core.dll";
 
-        [LibraryImport(DllName, EntryPoint = "?GenerateGeoJson@@YAPEBDPEBD@Z")]
-        [UnmanagedCallConv(CallConvs = [typeof(System.Runtime.CompilerServices.CallConvCdecl)])]
-        public static partial IntPtr GenerateGeoJson([MarshalAs(UnmanagedType.LPStr)] string path);
+        [DllImport("kernel32.dll")]
+        public static extern IntPtr LoadLibrary(string dllToLoad);
 
-        [LibraryImport(DllName, EntryPoint = "?FreeBuffer@@YAXPEBD@Z")]
-        [UnmanagedCallConv(CallConvs = [typeof(System.Runtime.CompilerServices.CallConvCdecl)])]
-        public static partial void FreeBuffer(IntPtr buffer);
+        [DllImport(DllName, EntryPoint = "?GenerateGeoJson@@YAPEBDPEBD@Z", CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr GenerateGeoJson([MarshalAs(UnmanagedType.LPStr)] string path);
+
+        [DllImport(DllName, EntryPoint = "?FreeBuffer@@YAXPEBD@Z", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void FreeBuffer(IntPtr buffer);
+
+        static GeozillaCoreDll()
+        {
+            string applicationDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!;
+            string dllPath = Path.Combine(applicationDirectory!, "..", "..", "..", "..", "..", "geozilla-core", "bin", ConfigName, DllName);
+            LoadLibrary(Path.GetFullPath(dllPath));
+        }
     }
 }
