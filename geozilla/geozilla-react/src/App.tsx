@@ -12,6 +12,7 @@ import {GeoJsonObject} from "geojson";
 const App = () => {
     const [geoJson, setGeoJson] = useState<GeoJsonObject | null>(null);
 
+    console.log("### App")
   return (
     <div className="App">
       <DataSender setGeoJson={setGeoJson}/>

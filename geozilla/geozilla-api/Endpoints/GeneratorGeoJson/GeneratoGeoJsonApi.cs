@@ -73,11 +73,7 @@ internal static class TestData
             {
               "type": "Feature",
               "properties": {
-                "stroke": "#ee5858",
-                "stroke-width": 2,
-                "stroke-opacity": 1,
-                "fill": "#a11ae0",
-                "fill-opacity": 0.5
+                "zoneType": "grass"
               },
               "geometry": {
                 "coordinates": [
@@ -142,9 +138,7 @@ internal static class TestData
             {
               "type": "Feature",
               "properties": {
-                "stroke": "#555555",
-                "stroke-width": 20,
-                "stroke-opacity": 1
+                "zoneType": "grass"
               },
               "geometry": {
                 "coordinates": [
@@ -168,9 +162,7 @@ internal static class TestData
             {
               "type": "Feature",
               "properties": {
-                "stroke": "#555555",
-                "stroke-width": 20,
-                "stroke-opacity": 1
+                "zoneType": "grass"
               },
               "geometry": {
                 "coordinates": [
@@ -194,9 +186,7 @@ internal static class TestData
             {
               "type": "Feature",
               "properties": {
-                "stroke": "#555555",
-                "stroke-width": 10,
-                "stroke-opacity": 1
+                "zoneType": "grass"
               },
               "geometry": {
                 "coordinates": [
@@ -278,11 +268,7 @@ internal static class TestData
             {
               "type": "Feature",
               "properties": {
-                "stroke": "#555555",
-                "stroke-width": 2,
-                "stroke-opacity": 1,
-                "fill": "#154df4",
-                "fill-opacity": 0.2
+                "zoneType": "grass"
               },
               "geometry": {
                 "type": "Polygon",

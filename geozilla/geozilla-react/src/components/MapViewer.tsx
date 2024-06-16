@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
-import {GeoJSON, MapContainer, TileLayer, useMap} from 'react-leaflet';
+import React, { useEffect, useRef } from 'react';
+import { MapContainer, TileLayer, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import {GeoJsonObject} from "geojson";
-import * as geojson from "geojson";
-import "leaflet/dist/leaflet.css";
-import L, {PathOptions} from 'leaflet';
+import { GeoJsonObject } from 'geojson';
+import * as geojson from 'geojson';
+import L, { PathOptions } from 'leaflet';
 import "@geoman-io/leaflet-geoman-free";
 import "@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css";
 
@@ -14,11 +13,16 @@ interface MapViewerProps {
     geoJson: GeoJsonObject | null;
 }
 
-const MapViewer: React.FC<MapViewerProps> = ({ center, zoom , geoJson}) => {
-
+const MapViewer: React.FC<MapViewerProps> = ({ center, zoom, geoJson }) => {
+    const grassLayerRef = useRef(new L.FeatureGroup());
+    const roadLayerRef = useRef(new L.FeatureGroup());
+    const buildingLayerRef = useRef(new L.FeatureGroup());
+    const defaultLayerRef = useRef(new L.FeatureGroup());
+    const layerControlRef = useRef<L.Control.Layers | null>(null);
+    const mapRef = useRef<L.Map | null>(null);
 
     useEffect(() => {
-        // Убеждаемся, что Leaflet использует правильные иконки
+        // Ensure Leaflet uses the correct icons
         delete (L as any).Icon.Default.prototype._getIconUrl;
 
         L.Icon.Default.mergeOptions({
@@ -28,19 +32,104 @@ const MapViewer: React.FC<MapViewerProps> = ({ center, zoom , geoJson}) => {
         });
     }, []);
 
+    useEffect(() => {
+        if (!geoJson) return;
+
+        grassLayerRef.current.clearLayers();
+        roadLayerRef.current.clearLayers();
+        buildingLayerRef.current.clearLayers();
+        defaultLayerRef.current.clearLayers();
+
+        const features = (geoJson as geojson.FeatureCollection).features;
+
+        features.forEach((feature) => {
+            const zoneType = feature.properties!.zoneType;
+
+            const layer = L.geoJSON(feature, {
+                style: colorize(zoneType)
+            });
+
+            const targetLayer = getLayer(zoneType);
+            targetLayer.addLayer(layer);
+        });
+    }, [geoJson]);
+
+    const getLayer = (zoneType: string) => {
+        switch (zoneType) {
+            case 'grass':
+                return grassLayerRef.current;
+            case 'road':
+                return roadLayerRef.current;
+            case 'building':
+                return buildingLayerRef.current;
+            default:
+                return defaultLayerRef.current;
+        }
+    };
+
+    const colorize = (zoneType: string): PathOptions => {
+        switch (zoneType) {
+            case 'grass':
+                return {
+                    color: '#76c893', // Color for grass
+                    weight: 2, // Line thickness
+                    fillColor: '#76c893', // Fill color for grass
+                    fillOpacity: 0.5, // Fill opacity
+                };
+            case 'road':
+                return {
+                    color: '#a1a1a1', // Color for road
+                    weight: 2, // Line thickness
+                    fillColor: '#a1a1a1', // Fill color for road
+                    fillOpacity: 0.5, // Fill opacity
+                };
+            case 'building':
+                return {
+                    color: '#ff8c00', // Color for building
+                    weight: 2, // Line thickness
+                    fillColor: '#ff8c00', // Fill color for building
+                    fillOpacity: 0.5, // Fill opacity
+                };
+            default:
+                return {
+                    color: '#ee5858', // Default color
+                    weight: 2, // Line thickness
+                    fillColor: '#a11ae0', // Default fill color
+                    fillOpacity: 0.5, // Fill opacity
+                };
+        }
+    };
+
     function MapSettings() {
         const map = useMap();
-        map.pm.addControls({
-            position: 'topleft',
-            drawCircleMarker: false,
-            rotateMode: false,
-        });
+
+        useEffect(() => {
+            if (!mapRef.current) {
+                mapRef.current = map;
+
+                map.pm.addControls({
+                    position: 'topleft',
+                    drawCircleMarker: false,
+                    rotateMode: false,
+                });
+
+                if (layerControlRef.current === null) {
+                    layerControlRef.current = L.control.layers({}, {
+                        'Grass': grassLayerRef.current,
+                        'Road': roadLayerRef.current,
+                        'Building': buildingLayerRef.current,
+                        'Default': defaultLayerRef.current
+                    }, { collapsed: false }).addTo(map);
+
+                    map.addLayer(grassLayerRef.current);
+                    map.addLayer(roadLayerRef.current);
+                    map.addLayer(buildingLayerRef.current);
+                    map.addLayer(defaultLayerRef.current);
+                }
+            }
+        }, [map]);
+
         return null;
-    }
-    const colorize = (feature?: geojson.Feature<geojson.GeometryObject, any> | undefined): PathOptions => {
-        return {
-            color: feature!.properties.fill,
-        };
     }
 
     return (
@@ -49,9 +138,8 @@ const MapViewer: React.FC<MapViewerProps> = ({ center, zoom , geoJson}) => {
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             />
-            {geoJson && <GeoJSON data={geoJson} style={colorize} />}
             <MapEditor geoJson={geoJson} />
-            <MapSettings/>
+            <MapSettings />
         </MapContainer>
     );
 }
@@ -62,10 +150,11 @@ interface MapEditorProps {
 
 const MapEditor: React.FC<MapEditorProps> = ({ geoJson }) => {
     const map = useMap();
+
     useEffect(() => {
         if (!map) return;
 
-        // Подключаем Leaflet-Geoman к карте
+        // Attach Leaflet-Geoman to the map
         map.pm.addControls({
             position: 'topleft',
             drawCircle: false,
@@ -73,22 +162,7 @@ const MapEditor: React.FC<MapEditorProps> = ({ geoJson }) => {
             drawCircleMarker: false,
         });
 
-        // Применяем стиль для GeoJSON
-        // const geoJsonStyle = {
-        //     color: '#ee5858',
-        //     weight: 2,
-        //     fillColor: '#a11ae0',
-        //     fillOpacity: 0.5,
-        // };
-        //
-        // // Добавляем GeoJSON слой на карту
-        // if (geoJson) {
-        //     L.geoJSON(geoJson, {
-        //         style: geoJsonStyle,
-        //     }).addTo(map);
-        // }
-
-        // Обработчики событий для геометрии
+        // Event handlers for geometry
         map.on('pm:create', (e) => {
             console.log('Created shape:', e);
         });
