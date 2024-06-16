@@ -2,6 +2,7 @@
 
 #include <Logger/ConsoleLogger.h>
 #include <Loader/GeoModelLoader.h>
+#include <ZoneSplitter/ZoneSplitter.h>
 
 #include <CesiumGltf/Model.h>
 
@@ -33,8 +34,14 @@ const char* GenerateGeoJson(const char* path)
 
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
     cloud->push_back(pcl::PointXYZ(1.0f, 2.0f, 3.0f));
+    cloud->push_back(pcl::PointXYZ(1.0f, 2.0f, 3.0f));
+    cloud->push_back(pcl::PointXYZ(1.0f, 2.0f, 3.0f));
+    cloud->push_back(pcl::PointXYZ(1.0f, 2.0f, 10.0f));
+    cloud->push_back(pcl::PointXYZ(1.0f, 2.0f, 10.0f));
+    cloud->push_back(pcl::PointXYZ(1.0f, 2.0f, 30.0f));
 
-    std::string result = "{}";
+    auto splitter = ZoneSplitter();
+    std::string result = splitter.SplitToZones(cloud);
     return ConvertToRawMemory(result);
 }
 

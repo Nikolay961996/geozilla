@@ -6,6 +6,10 @@ set(SOURCE_LIST
     GeozillaCore.h
     GeozillaCore.cpp
 
+    # ZoneSplitter
+    ZoneSplitter/ZoneSplitter.h
+    ZoneSplitter/ZoneSplitter.cpp
+
     # Logger
     Logger/ILogger.h
     Logger/ConsoleLogger.h
