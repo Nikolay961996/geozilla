@@ -27,7 +27,7 @@ bool GeoModelLoader::IsFileSupported(const std::filesystem::path& path) const
     return loader != nullptr;
 }
 
-std::vector<GeoModelLoader::GeoModel> GeoModelLoader::Load(const std::filesystem::path& path)
+std::vector<IGeoModelLoader::GeoModel> GeoModelLoader::Load(const std::filesystem::path& path)
 {
     auto loader = FindLoader(path);
     if (loader)
