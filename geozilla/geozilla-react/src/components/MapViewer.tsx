@@ -203,7 +203,7 @@ interface MapEditorProps {
     activeLayer: string;
 }
 
-const MapEditor: React.FC<MapEditorProps> = ({ geoJson, setGeoJson, grassLayerRef, roadLayerRef, sideWalkLayerRef, buildingLayerRef, defaultLayerRef, activeLayer }) => {
+const MapEditor: React.FC<MapEditorProps> = ({ setGeoJson, grassLayerRef, roadLayerRef, sideWalkLayerRef, buildingLayerRef, defaultLayerRef, activeLayer }) => {
     const map = useMap();
 
     useEffect(() => {
@@ -278,11 +278,7 @@ const MapEditor: React.FC<MapEditorProps> = ({ geoJson, setGeoJson, grassLayerRe
             map.off('pm:edit');
             map.off('pm:remove');
         };
-    }, [map, setGeoJson, activeLayer]);
-
-    useEffect(() => {
-        console.log(`Active layer in MapEditor: ${activeLayer}`);
-    }, [activeLayer]);
+    }, [map, setGeoJson, activeLayer, defaultLayerRef, buildingLayerRef, grassLayerRef, roadLayerRef, sideWalkLayerRef]);
 
     return null;
 };
