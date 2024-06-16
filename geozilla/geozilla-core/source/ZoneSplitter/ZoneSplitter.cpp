@@ -2,10 +2,17 @@
 
 #include <pcl/segmentation/sac_segmentation.h>
 #include <pcl/filters/extract_indices.h>
-//#include <nlohmann/json.hpp>
+#include <nlohmann/json.hpp>
+#include <opencv2/opencv.hpp>
+#include <pcl/point_cloud.h>
+#include <pcl/point_types.h>
+#include <pcl/io/ply_io.h>
+
 
 std::string ZoneSplitter::SplitToZones(pcl::PointCloud<pcl::PointXYZRGB>::Ptr pointCloud) {
     std::vector<Zone> zones = Split(pointCloud);
+    cv::Mat image = pointCloudToImage(pointCloud);
+
     for (auto& zone : zones) {
         zone.type = ClassifyZone(zone);
     }
@@ -58,34 +65,48 @@ std::vector<Zone> ZoneSplitter::Split(pcl::PointCloud<pcl::PointXYZRGB>::Ptr poi
 }
 
 std::string ZoneSplitter::ClassifyZone(const Zone& sector) {
-    // TODO: AI detection
-    return "grass";
+    cv::Mat image = ZoneToImage(cloud);
+    cv::imwrite("output_image.png", image);
+
+    // Вычисление признаков GLCM
+    std::vector<double> features = computeGLCMFeatures(image);
+    double mean = features[0];
+    double variance = features[1];
+    double entropy = features[2];
+    double contrast = features[3];
+
+    if (entropy < 1.0 && contrast < 0.1) {
+        return "road";
+    }
+    else if (entropy < 1.0 && contrast >= 0.1) {
+        return "sidewalk";
+    }
+    else if (entropy >= 1.0 && variance < 0.5) {
+        return "grass";
+    }
+    else if (variance >= 0.5) {
+        return "building";
+    }
+
+    return "unknown";
 }
 
 std::string ZoneSplitter::CreateGeoJson(const std::vector<Zone>& zones) {
-    int i = 0;
-    for (const auto& zone : zones) {
-        //std::string str(zone.points.begin(), zone.points.end());
-
-        //std::cout << "[" << i++ << "]" << " Type: " << zone.type << "; Points: " << zone.points.size() << " pcs" << std::endl;
-    }
-    return "";
-    /*
     json geojson;
     geojson["type"] = "FeatureCollection";
     geojson["features"] = json::array();
 
-    for (const auto& zone : zones) {
+    for (const auto& sector : sectors) {
         json feature;
         feature["type"] = "Feature";
-        feature["properties"]["zoneType"] = zone.type;
+        feature["properties"]["type"] = sector.type;
 
         json geometry;
         geometry["type"] = "Polygon";
         geometry["coordinates"] = json::array();
 
         json coordinates = json::array();
-        for (const auto& point : zone.points) {
+        for (const auto& point : sector.points) {
             coordinates.push_back({ point.x, point.y, point.z });
         }
         geometry["coordinates"].push_back(coordinates);
@@ -94,25 +115,66 @@ std::string ZoneSplitter::CreateGeoJson(const std::vector<Zone>& zones) {
         geojson["features"].push_back(feature);
     }
 
-    std::string result = geojson.dump(4);
-
-    return result;
-
-    */
+    return geojson.dump(4);
 }
 
-//cv::Mat ZoneSplitter::PointCloudToImage(const pcl::PointCloud<pcl::PointXYZ>::Ptr& cloud) {
-//    int width = 500;  // Ширина изображения
-//    int height = 500; // Высота изображения
-//    cv::Mat image(height, width, CV_8UC1, cv::Scalar(0));
-//
-//    for (const auto& point : cloud->points) {
-//        int x = static_cast<int>((point.x + 10) * 25);  // Преобразование координат
-//        int y = static_cast<int>((point.y + 10) * 25);  // Преобразование координат
-//        if (x >= 0 && x < width && y >= 0 && y < height) {
-//            image.at<uchar>(y, x) = 255;
-//        }
-//    }
-//
-//    return image;
-//}
+
+cv::Mat zoneToImage(Zone& zone) {
+    int width = 500;
+    int height = 500;
+    cv::Mat image(height, width, CV_8UC3, cv::Scalar(0, 0, 0));
+
+    for (const auto& point : zone.points) {
+        int x = static_cast<int>((point.x + 10) * 25);
+        int y = static_cast<int>((point.y + 10) * 25);
+        if (x >= 0 && x < width && y >= 0 && y < height) {
+            image.at<cv::Vec3b>(y, x) = cv::Vec3b(point.b, point.g, point.r);
+        }
+    }
+
+    return image;
+}
+
+std::vector<double> computeGLCMFeatures(const cv::Mat& image) {
+    cv::Mat grayImage;
+    cv::cvtColor(image, grayImage, cv::COLOR_BGR2GRAY);
+
+    cv::Mat glcm = cv::Mat::zeros(256, 256, CV_32F);
+    int dx = 1, dy = 0;
+
+    for (int y = 0; y < grayImage.rows - dy; y++) {
+        for (int x = 0; x < grayImage.cols - dx; x++) {
+            int i = grayImage.at<uchar>(y, x);
+            int j = grayImage.at<uchar>(y + dy, x + dx);
+            glcm.at<float>(i, j)++;
+        }
+    }
+
+    glcm /= (grayImage.rows * grayImage.cols);
+
+    std::vector<double> features;
+
+    double mean = 0.0;
+    double variance = 0.0;
+    double entropy = 0.0;
+    double contrast = 0.0;
+
+    for (int i = 0; i < glcm.rows; i++) {
+        for (int j = 0; j < glcm.cols; j++) {
+            double val = glcm.at<float>(i, j);
+            mean += val;
+            variance += (i - mean) * (i - mean) * val;
+            if (val > 0) {
+                entropy -= val * log2(val);
+            }
+            contrast += (i - j) * (i - j) * val;
+        }
+    }
+
+    features.push_back(mean);
+    features.push_back(variance);
+    features.push_back(entropy);
+    features.push_back(contrast);
+
+    return features;
+}
