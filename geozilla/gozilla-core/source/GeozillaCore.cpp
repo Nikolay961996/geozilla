@@ -5,6 +5,9 @@
 
 #include <CesiumGltf/Model.h>
 
+#include <pcl/point_cloud.h>
+#include <pcl/point_types.h>
+
 namespace
 {
 
@@ -27,6 +30,9 @@ const char* GenerateGeoJson(const char* path)
     loader.SetLogger(logger);
 #endif
     loader.Load(path);
+
+    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
+    cloud->push_back(pcl::PointXYZ(1.0f, 2.0f, 3.0f));
 
     std::string result = "{}";
     return ConvertToRawMemory(result);

@@ -21,12 +21,18 @@ set(SOURCE_LIST
     Loader/B3dmLoader.cpp
 )
 
+find_package(PCL REQUIRED)
+
 add_library(${PROJECT_NAME} SHARED ${SOURCE_LIST})
 
-target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${PCL_INCLUDE_DIRS})
 
-target_link_libraries(${PROJECT_NAME} CesiumGltf Cesium3DTilesContent)
+link_directories(${PCL_LIBRARY_DIRS})
 
-source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCE_LIST})
+target_link_libraries(${PROJECT_NAME} CesiumGltf Cesium3DTilesContent ${PCL_LIBRARIES})
+
+add_definitions(${PCL_DEFINITIONS})
 
 set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 20)
+
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCE_LIST})
