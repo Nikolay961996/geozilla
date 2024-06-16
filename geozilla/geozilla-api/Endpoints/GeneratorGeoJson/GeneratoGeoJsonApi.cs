@@ -6,8 +6,14 @@ namespace geozilla_api.Endpoints.GeneratorGeoJson;
 
 public static class GeneratoGeoJsonApi
 {
+    private static string TempUploadedFileDirectory = "Temp";
+
     public static IEndpointRouteBuilder AddGeneratoGeoJsonApi(this IEndpointRouteBuilder builder)
     {
+        var info = new DirectoryInfo(TempUploadedFileDirectory);
+        if (!info.Exists)
+            info.Create();
+
         builder.MapPost("generate/geo-json", GenerateGeoJson)
             .WithName("GenerateGeoJson").WithOpenApi()
             .DisableAntiforgery();
@@ -17,11 +23,14 @@ public static class GeneratoGeoJsonApi
 
     private static async Task<string> GenerateGeoJson([FromForm] GenerateGeoJsonRequest request, IGeoJsonService service)
     {
-        Console.WriteLine($"lat: {request.Latitude}; lng: {request.Longitude}");
-        Console.WriteLine($"file: {request.File.Name}");
+        var path = Path.Combine(TempUploadedFileDirectory, request.File.FileName);
+        using (var outputFileStream = new FileStream(path, FileMode.Create))
+        {
+            request.File.OpenReadStream().CopyTo(outputFileStream);
+        }
 
+        var result = await service.Generate(Path.GetFullPath(path));
 
-        var result = await service.Generate("D://path/from/request");
 
         result = TestData.GeoJson;
 
