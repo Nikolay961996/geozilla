@@ -4,10 +4,10 @@ import FileUploader from "./FileUploader";
 import CoordinateInput from "./CoordinateInput";
 import {LatLngString} from "../types/LatLng";
 import {GenerateGeoJsonApi} from "../api/GenerateGeoJsonApi";
-import {GeoJsonObject} from "geojson";
+import {FeatureCollection, GeoJsonObject} from "geojson";
 
 interface DataSenderProps {
-    setGeoJson: React.Dispatch<React.SetStateAction<GeoJsonObject | null>>;
+    setGeoJson: (geoJson: FeatureCollection) => void;
 }
 
 const DataSender: React.FC<DataSenderProps> = ({setGeoJson}) => {

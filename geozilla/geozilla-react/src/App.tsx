@@ -6,16 +6,16 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import MapViewer from './components/MapViewer';
 import DataSender from "./components/DataSender";
-import {GeoJsonObject} from "geojson";
+import {FeatureCollection} from "geojson";
 
 const App = () => {
-    const [geoJson, setGeoJson] = useState<GeoJsonObject | null>(null);
+    const [geoJson, setGeoJson] = useState<FeatureCollection | null>(null);
 
     console.log("### App")
   return (
     <div className="App">
         {!geoJson && <DataSender setGeoJson={setGeoJson}/>}
-        {geoJson && <MapViewer geoJson={geoJson} center={[56.1322200, 47.2519400]} zoom={10} />}
+        {geoJson && <MapViewer geoJson={geoJson} setGeoJson={setGeoJson} center={[56.1322200, 47.2519400]} zoom={10} />}
     </div>
   );
 }

@@ -1,21 +1,22 @@
 import React, { useEffect, useRef } from 'react';
 import { MapContainer, TileLayer, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import { GeoJsonObject } from 'geojson';
+import { FeatureCollection, GeoJsonObject } from 'geojson';
 import * as geojson from 'geojson';
 import L, { PathOptions } from 'leaflet';
 import "@geoman-io/leaflet-geoman-free";
 import "@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css";
-import {Box, Container, Grid} from "@mui/material";
+import { Box, Container, Grid } from "@mui/material";
 import "./MapViewer.css"
 
 interface MapViewerProps {
     center: [number, number];
     zoom: number;
-    geoJson: GeoJsonObject | null;
+    geoJson: FeatureCollection | null;
+    setGeoJson: (geoJson: FeatureCollection) => void;
 }
 
-const MapViewer: React.FC<MapViewerProps> = ({ center, zoom, geoJson }) => {
+const MapViewer: React.FC<MapViewerProps> = ({ center, zoom, geoJson, setGeoJson }) => {
     const grassLayerRef = useRef(new L.FeatureGroup());
     const roadLayerRef = useRef(new L.FeatureGroup());
     const sidewalkLayerRef = useRef(new L.FeatureGroup());
@@ -157,7 +158,7 @@ const MapViewer: React.FC<MapViewerProps> = ({ center, zoom, geoJson }) => {
                                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                             />
-                            <MapEditor geoJson={geoJson} />
+                            <MapEditor geoJson={geoJson} setGeoJson={setGeoJson} defaultLayerRef={defaultLayerRef}/>
                             <MapSettings />
                         </MapContainer>
                     </Grid>
@@ -174,10 +175,12 @@ const MapViewer: React.FC<MapViewerProps> = ({ center, zoom, geoJson }) => {
 }
 
 interface MapEditorProps {
-    geoJson: GeoJsonObject | null;
+    defaultLayerRef: React.MutableRefObject<L.FeatureGroup<any>>;
+    geoJson: FeatureCollection | null;
+    setGeoJson: (geoJson: FeatureCollection) => void;
 }
 
-const MapEditor: React.FC<MapEditorProps> = ({ geoJson }) => {
+const MapEditor: React.FC<MapEditorProps> = ({ geoJson, setGeoJson, defaultLayerRef }) => {
     const map = useMap();
 
     useEffect(() => {
@@ -191,19 +194,55 @@ const MapEditor: React.FC<MapEditorProps> = ({ geoJson }) => {
             drawCircleMarker: false,
         });
 
+        const updateGeoJson = () => {
+            const allLayers = map.pm.getGeomanLayers();
+
+            //const allLayers = map.pm.getGeomanDrawLayers();
+            //debugger;
+
+            const updatedGeoJson: FeatureCollection = {
+                type: 'FeatureCollection',
+                features: allLayers.map((layer: L.Layer) => {
+                    // Check if the layer has toGeoJSON method
+                    if ('toGeoJSON' in layer) {
+                        return (layer as any).toGeoJSON() as geojson.Feature;
+                    }
+                    return null;
+                }).filter((feature): feature is geojson.Feature => feature !== null)
+            };
+            setGeoJson(updatedGeoJson);
+        };
+
+        const addLayerToDefault = (layer: L.Layer) => {
+            defaultLayerRef.current.addLayer(layer);
+        };
+
         // Event handlers for geometry
         map.on('pm:create', (e) => {
+            const layer = e.layer;
+            addLayerToDefault(layer);
+            updateGeoJson();
             console.log('Created shape:', e);
         });
 
         map.on('pm:edit', (e) => {
+            updateGeoJson();
             console.log('Edited shape:', e);
         });
 
         map.on('pm:remove', (e) => {
+            updateGeoJson();
             console.log('Removed shape:', e);
         });
-    }, [map, geoJson]);
+
+        // Clean up event listeners on component unmount
+        return () => {
+            map.off('pm:create');
+            map.off('pm:edit');
+            map.off('pm:remove');
+        };
+
+    }, [map, setGeoJson]);
 
     return null;
 };
