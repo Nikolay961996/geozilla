@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { MapContainer, TileLayer, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import L, { FeatureGroup, PathOptions } from 'leaflet';
+import L, { PathOptions } from 'leaflet';
 import { FeatureCollection } from 'geojson';
 import * as geojson from 'geojson';
 import "@geoman-io/leaflet-geoman-free";
