@@ -6,6 +6,8 @@ import * as geojson from 'geojson';
 import L, { PathOptions } from 'leaflet';
 import "@geoman-io/leaflet-geoman-free";
 import "@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css";
+import {Box, Container, Grid} from "@mui/material";
+import "./MapViewer.css"
 
 interface MapViewerProps {
     center: [number, number];
@@ -27,9 +29,9 @@ const MapViewer: React.FC<MapViewerProps> = ({ center, zoom, geoJson }) => {
         delete (L as any).Icon.Default.prototype._getIconUrl;
 
         L.Icon.Default.mergeOptions({
-            iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png').default,
-            iconUrl: require('leaflet/dist/images/marker-icon.png').default,
-            shadowUrl: require('leaflet/dist/images/marker-shadow.png').default,
+             iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png').default,
+             iconUrl: require('leaflet/dist/images/marker-icon.png').default,
+             shadowUrl: require('leaflet/dist/images/marker-shadow.png').default,
         });
     }, []);
 
@@ -146,14 +148,28 @@ const MapViewer: React.FC<MapViewerProps> = ({ center, zoom, geoJson }) => {
     }
 
     return (
-        <MapContainer center={center} zoom={zoom} style={{ height: '100%', width: '100%' }}>
-            <TileLayer
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            />
-            <MapEditor geoJson={geoJson} />
-            <MapSettings />
-        </MapContainer>
+        <Container>
+            <Box marginTop={4} height="500px">
+                <Grid container spacing={2}>
+                    <Grid item xs={8} style={{height: "500px"}}>
+                        <MapContainer center={center} zoom={zoom} style={{ height: '100%', width: '100%' }}>
+                            <TileLayer
+                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                            />
+                            <MapEditor geoJson={geoJson} />
+                            <MapSettings />
+                        </MapContainer>
+                    </Grid>
+                    <Grid item xs={4} style={{height: "500px"}}>
+                        <div style={{ height: '100%', overflow: 'auto' }}>
+                            {JSON.stringify(geoJson)}
+                        </div>
+                    </Grid>
+                </Grid>
+
+            </Box>
+        </Container>
     );
 }
 

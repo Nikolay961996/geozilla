@@ -40,15 +40,11 @@ const DataSender: React.FC<DataSenderProps> = ({setGeoJson}) => {
 
     return (
         <Container>
-            <Box marginTop={4}>
-                <FileUploader setUploadedFile={setUploadedFile} />
-            </Box>
+
             <Box marginTop={4}>
                 <CoordinateInput selectedCoords={selectedCoords} setSelectedCoords={setSelectedCoords}/>
             </Box>
-            <Button variant="contained" onClick={handleSubmit}>
-                Отправить данные
-            </Button>
+
             {error && <p style={{ color: 'red' }}>{error}</p>}
             <Snackbar
                 open={snackbarOpen}
@@ -56,21 +52,13 @@ const DataSender: React.FC<DataSenderProps> = ({setGeoJson}) => {
                 message="Данные успешно отправлены"
             />
 
-            <div>
-                <div>
-                    {
-                        uploadedFile && <div>File: {uploadedFile?.name}, {uploadedFile?.size}</div>
-                    }
-                    {
-                        !uploadedFile && <div>Выберите файл</div>
-                    }
-                </div>
-                <div>
-                    {
-                        selectedCoords && <div>{selectedCoords.lat}; {selectedCoords.lng}</div>
-                    }
-                </div>
-            </div>
+            { !uploadedFile && <Box margin={1}>Выберите файл</Box> }
+            <Box marginTop={1} marginBottom={1}>
+                <FileUploader setUploadedFile={setUploadedFile} />
+            </Box>
+            <Button variant="contained" onClick={handleSubmit}>
+                Отправить данные
+            </Button>
         </Container>
     );
 };
