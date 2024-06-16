@@ -31,3 +31,7 @@
 1. OpenCV (Apache-2)
 1. Cesium native (Apache-2)
 1. nlohmann (MIT)
+
+# Общая схема
+
+![alt text](geozilla-scheme.drawio-1.png)
