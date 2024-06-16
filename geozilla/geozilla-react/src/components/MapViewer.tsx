@@ -16,6 +16,7 @@ interface MapViewerProps {
 const MapViewer: React.FC<MapViewerProps> = ({ center, zoom, geoJson }) => {
     const grassLayerRef = useRef(new L.FeatureGroup());
     const roadLayerRef = useRef(new L.FeatureGroup());
+    const sidewalkLayerRef = useRef(new L.FeatureGroup());
     const buildingLayerRef = useRef(new L.FeatureGroup());
     const defaultLayerRef = useRef(new L.FeatureGroup());
     const layerControlRef = useRef<L.Control.Layers | null>(null);
@@ -37,6 +38,7 @@ const MapViewer: React.FC<MapViewerProps> = ({ center, zoom, geoJson }) => {
 
         grassLayerRef.current.clearLayers();
         roadLayerRef.current.clearLayers();
+        sidewalkLayerRef.current.clearLayers();
         buildingLayerRef.current.clearLayers();
         defaultLayerRef.current.clearLayers();
 
@@ -60,6 +62,8 @@ const MapViewer: React.FC<MapViewerProps> = ({ center, zoom, geoJson }) => {
                 return grassLayerRef.current;
             case 'road':
                 return roadLayerRef.current;
+            case 'sidewalk':
+                return sidewalkLayerRef.current;
             case 'building':
                 return buildingLayerRef.current;
             default:
@@ -81,6 +85,13 @@ const MapViewer: React.FC<MapViewerProps> = ({ center, zoom, geoJson }) => {
                     color: '#a1a1a1', // Color for road
                     weight: 2, // Line thickness
                     fillColor: '#a1a1a1', // Fill color for road
+                    fillOpacity: 0.5, // Fill opacity
+                };
+            case 'sidewalk':
+                return {
+                    color: '#d1d1d1', // Color for sidewalk
+                    weight: 2, // Line thickness
+                    fillColor: '#d1d1d1', // Fill color for sidewalk
                     fillOpacity: 0.5, // Fill opacity
                 };
             case 'building':
@@ -117,12 +128,14 @@ const MapViewer: React.FC<MapViewerProps> = ({ center, zoom, geoJson }) => {
                     layerControlRef.current = L.control.layers({}, {
                         'Grass': grassLayerRef.current,
                         'Road': roadLayerRef.current,
+                        'Sidewalk': sidewalkLayerRef.current,
                         'Building': buildingLayerRef.current,
                         'Default': defaultLayerRef.current
                     }, { collapsed: false }).addTo(map);
 
                     map.addLayer(grassLayerRef.current);
                     map.addLayer(roadLayerRef.current);
+                    map.addLayer(sidewalkLayerRef.current);
                     map.addLayer(buildingLayerRef.current);
                     map.addLayer(defaultLayerRef.current);
                 }
