@@ -1,6 +1,6 @@
-[submodule "geozilla/gozilla-core/external/cesium-native"]
-	path = geozilla/gozilla-core/external/cesium-native
+[submodule "geozilla/geozilla-core/external/cesium-native"]
+	path = geozilla/geozilla-core/external/cesium-native
 	url = https://github.com/CesiumGS/cesium-native.git
-[submodule "geozilla/gozilla-core/external/vcpkg"]
-	path = geozilla/gozilla-core/external/vcpkg
+[submodule "geozilla/geozilla-core/external/vcpkg"]
+	path = geozilla/geozilla-core/external/vcpkg
 	url = https://github.com/microsoft/vcpkg.git
