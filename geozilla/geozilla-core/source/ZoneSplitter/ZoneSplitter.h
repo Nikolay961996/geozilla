@@ -6,7 +6,9 @@
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 
-//#include <opencv2/opencv.hpp>
+#include <opencv2/opencv.hpp>
+
+typedef pcl::PointXYZRGB PointType;
 
 struct Zone {
     std::string type;
