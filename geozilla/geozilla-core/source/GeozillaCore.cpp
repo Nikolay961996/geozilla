@@ -1,0 +1,61 @@
+#include "GeozillaCore.h"
+#include "GltfToPointCloudConverter.h"
+
+#include <Logger/ConsoleLogger.h>
+#include <Loader/GeoModelLoader.h>
+
+#include <CesiumGltf/Model.h>
+
+#include <algorithm>
+
+namespace
+{
+
+std::vector<gz::core::IGeoModelLoader::GeoModel> LoadGeoModels(const char* path)
+{
+    if (!path)
+        return {};
+
+    auto loader = gz::core::GeoModelLoader();
+#ifdef _DEBUG
+    loader.SetLogger(std::make_shared<gz::core::ConsoleLogger>());
+#endif
+    return loader.Load(path);
+}
+
+gz::core::GltfToPointCloudConverter::Points ConvertToPointCloud(const std::vector<gz::core::IGeoModelLoader::GeoModel>& models)
+{
+    auto pointCloud = gz::core::GltfToPointCloudConverter::Points();
+
+    std::for_each(std::begin(models), std::end(models), [&pointCloud](const auto& model)
+    {
+        gz::core::GltfToPointCloudConverter::Convert(model, pointCloud);
+    });
+
+    return pointCloud;
+}
+
+const char* ConvertToRawMemory(const std::string& data)
+{
+    const auto size = data.size();
+    auto* buffer = new char[size + 1];
+    buffer[size] = '\0';
+    std::copy(std::cbegin(data), std::cend(data), buffer);
+    return buffer;
+}
+
+} // namespace
+
+const char* GenerateGeoJson(const char* path)
+{
+    auto models = LoadGeoModels(path);
+    auto pointCloud = ConvertToPointCloud(models);
+
+    std::string result = "{}";
+    return ConvertToRawMemory(result);
+}
+
+void FreeBuffer(const char* buffer)
+{
+    delete[] buffer;
+}
