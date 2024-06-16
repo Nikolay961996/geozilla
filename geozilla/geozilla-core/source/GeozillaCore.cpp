@@ -3,6 +3,7 @@
 
 #include <Logger/ConsoleLogger.h>
 #include <Loader/GeoModelLoader.h>
+#include <ZoneSplitter/ZoneSplitter.h>
 
 #include <CesiumGltf/Model.h>
 
@@ -23,13 +24,15 @@ std::vector<gz::core::IGeoModelLoader::GeoModel> LoadGeoModels(const char* path)
     return loader.Load(path);
 }
 
-gz::core::GltfToPointCloudConverter::Points ConvertToPointCloud(const std::vector<gz::core::IGeoModelLoader::GeoModel>& models)
+gz::core::GltfToPointCloudConverter::Points::Ptr ConvertToPointCloud(const std::vector<gz::core::IGeoModelLoader::GeoModel>& models)
 {
-    auto pointCloud = gz::core::GltfToPointCloudConverter::Points();
+    using namespace gz::core;
 
-    std::for_each(std::begin(models), std::end(models), [&pointCloud](const auto& model)
+    auto pointCloud = std::make_shared<GltfToPointCloudConverter::Points>();
+
+    std::for_each(std::begin(models), std::end(models), [&pc = *pointCloud](const auto& model)
     {
-        gz::core::GltfToPointCloudConverter::Convert(model, pointCloud);
+        gz::core::GltfToPointCloudConverter::Convert(model, pc);
     });
 
     return pointCloud;
@@ -51,7 +54,8 @@ const char* GenerateGeoJson(const char* path)
     auto models = LoadGeoModels(path);
     auto pointCloud = ConvertToPointCloud(models);
 
-    std::string result = "{}";
+    auto splitter = ZoneSplitter();
+    std::string result = splitter.SplitToZones(pointCloud);
     return ConvertToRawMemory(result);
 }
 

@@ -8,6 +8,10 @@ set(SOURCE_LIST
     GltfToPointCloudConverter.h
     GltfToPointCloudConverter.cpp
 
+    # ZoneSplitter
+    ZoneSplitter/ZoneSplitter.h
+    ZoneSplitter/ZoneSplitter.cpp
+
     # Logger
     Logger/ILogger.h
     Logger/ConsoleLogger.h
