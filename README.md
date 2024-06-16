@@ -55,6 +55,7 @@
 1. OpenCV (Apache-2)
 1. Cesium native (Apache-2)
 1. nlohmann (MIT)
+1. cmake (BSD-3)
 
 # Общая схема
 
