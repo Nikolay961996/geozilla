@@ -5,6 +5,8 @@ set(SOURCE_LIST
     DllMain.cpp
     GeozillaCore.h
     GeozillaCore.cpp
+    GltfToPointCloudConverter.h
+    GltfToPointCloudConverter.cpp
 
     # Logger
     Logger/ILogger.h
