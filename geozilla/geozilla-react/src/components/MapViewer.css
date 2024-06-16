@@ -1,0 +1,32 @@
+/* Стилизация полосы прокрутки для Chrome, Edge и Safari */
+
+::-webkit-scrollbar {
+    width: 12px; /* Ширина вертикальной полосы прокрутки */
+    height: 12px; /* Высота горизонтальной полосы прокрутки */
+}
+
+::-webkit-scrollbar-track {
+
+    background: #f1f1f1; /* Цвет фона дорожки */
+
+}
+
+::-webkit-scrollbar-thumb {
+
+    background: #888; /* Цвет ползунка */
+
+}
+
+::-webkit-scrollbar-thumb:hover {
+
+    background: #555; /* Цвет ползунка при наведении */
+
+}
+
+.layer-highlight {
+    stroke: #3388ff; /* Цвет обводки для подсветки слоя */
+    stroke-width: 3px; /* Ширина обводки */
+    fill: none; /* Без заливки */
+    pointer-events: none; /* Отключаем взаимодействие с элементом через указатель */
+}
+
