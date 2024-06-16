@@ -1,37 +1,41 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { MapContainer, TileLayer, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import { GeoJsonObject } from 'geojson';
-import * as geojson from 'geojson';
 import L, { PathOptions } from 'leaflet';
+import { FeatureCollection } from 'geojson';
+import * as geojson from 'geojson';
 import "@geoman-io/leaflet-geoman-free";
 import "@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css";
-import {Box, Container, Grid} from "@mui/material";
-import "./MapViewer.css"
+import { Box, Container, Grid, Button } from "@mui/material";
+import "./MapViewer.css";
+
 
 interface MapViewerProps {
     center: [number, number];
     zoom: number;
-    geoJson: GeoJsonObject | null;
+    geoJson: FeatureCollection | null;
+    setGeoJson: (geoJson: FeatureCollection) => void;
 }
 
-const MapViewer: React.FC<MapViewerProps> = ({ center, zoom, geoJson }) => {
-    const grassLayerRef = useRef(new L.FeatureGroup());
-    const roadLayerRef = useRef(new L.FeatureGroup());
-    const sidewalkLayerRef = useRef(new L.FeatureGroup());
-    const buildingLayerRef = useRef(new L.FeatureGroup());
-    const defaultLayerRef = useRef(new L.FeatureGroup());
+const MapViewer: React.FC<MapViewerProps> = ({ center, zoom, geoJson, setGeoJson }) => {
+    const grassLayerRef = useRef<L.FeatureGroup>(new L.FeatureGroup());
+    const roadLayerRef = useRef<L.FeatureGroup>(new L.FeatureGroup());
+    const sidewalkLayerRef = useRef<L.FeatureGroup>(new L.FeatureGroup());
+    const buildingLayerRef = useRef<L.FeatureGroup>(new L.FeatureGroup());
+    const defaultLayerRef = useRef<L.FeatureGroup>(new L.FeatureGroup());
+
     const layerControlRef = useRef<L.Control.Layers | null>(null);
     const mapRef = useRef<L.Map | null>(null);
 
+    const [activeLayer, setActiveLayer] = useState<string>('default');
+
     useEffect(() => {
-        // Ensure Leaflet uses the correct icons
         delete (L as any).Icon.Default.prototype._getIconUrl;
 
         L.Icon.Default.mergeOptions({
-             iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png').default,
-             iconUrl: require('leaflet/dist/images/marker-icon.png').default,
-             shadowUrl: require('leaflet/dist/images/marker-shadow.png').default,
+            iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png').default,
+            iconUrl: require('leaflet/dist/images/marker-icon.png').default,
+            shadowUrl: require('leaflet/dist/images/marker-shadow.png').default,
         });
     }, []);
 
@@ -44,7 +48,7 @@ const MapViewer: React.FC<MapViewerProps> = ({ center, zoom, geoJson }) => {
         buildingLayerRef.current.clearLayers();
         defaultLayerRef.current.clearLayers();
 
-        const features = (geoJson as geojson.FeatureCollection).features;
+        const features = geoJson.features;
 
         features.forEach((feature) => {
             const zoneType = feature.properties!.zoneType;
@@ -73,42 +77,43 @@ const MapViewer: React.FC<MapViewerProps> = ({ center, zoom, geoJson }) => {
         }
     };
 
+
     const colorize = (zoneType: string): PathOptions => {
         switch (zoneType) {
             case 'grass':
                 return {
-                    color: '#76c893', // Color for grass
-                    weight: 2, // Line thickness
-                    fillColor: '#76c893', // Fill color for grass
-                    fillOpacity: 0.5, // Fill opacity
+                    color: '#76c893',
+                    weight: 2,
+                    fillColor: '#76c893',
+                    fillOpacity: 0.5,
                 };
             case 'road':
                 return {
-                    color: '#a1a1a1', // Color for road
-                    weight: 2, // Line thickness
-                    fillColor: '#a1a1a1', // Fill color for road
-                    fillOpacity: 0.5, // Fill opacity
+                    color: '#a1a1a1',
+                    weight: 2,
+                    fillColor: '#a1a1a1',
+                    fillOpacity: 0.5,
                 };
             case 'sidewalk':
                 return {
-                    color: '#d1d1d1', // Color for sidewalk
-                    weight: 2, // Line thickness
-                    fillColor: '#d1d1d1', // Fill color for sidewalk
-                    fillOpacity: 0.5, // Fill opacity
+                    color: '#d1d1d1',
+                    weight: 2,
+                    fillColor: '#d1d1d1',
+                    fillOpacity: 0.5,
                 };
             case 'building':
                 return {
-                    color: '#ff8c00', // Color for building
-                    weight: 2, // Line thickness
-                    fillColor: '#ff8c00', // Fill color for building
-                    fillOpacity: 0.5, // Fill opacity
+                    color: '#ff8c00',
+                    weight: 2,
+                    fillColor: '#ff8c00',
+                    fillOpacity: 0.5,
                 };
             default:
                 return {
-                    color: '#ee5858', // Default color
-                    weight: 2, // Line thickness
-                    fillColor: '#a11ae0', // Default fill color
-                    fillOpacity: 0.5, // Fill opacity
+                    color: '#ee5858',
+                    weight: 2,
+                    fillColor: '#a11ae0',
+                    fillOpacity: 0.5,
                 };
         }
     };
@@ -147,43 +152,63 @@ const MapViewer: React.FC<MapViewerProps> = ({ center, zoom, geoJson }) => {
         return null;
     }
 
+
+    const handleLayerButtonClick = (layerName: string) => {
+        setActiveLayer(layerName);
+        console.log(`Highlighted layer: ${layerName}`);
+    };
+
     return (
         <Container>
             <Box marginTop={4} height="500px">
                 <Grid container spacing={2}>
-                    <Grid item xs={8} style={{height: "500px"}}>
+                    <Grid item xs={8} style={{ height: "500px" }}>
                         <MapContainer center={center} zoom={zoom} style={{ height: '100%', width: '100%' }}>
                             <TileLayer
                                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                             />
-                            <MapEditor geoJson={geoJson} />
+                            <MapEditor geoJson={geoJson} setGeoJson={setGeoJson} grassLayerRef={grassLayerRef} roadLayerRef={roadLayerRef} sideWalkLayerRef={sidewalkLayerRef} buildingLayerRef={buildingLayerRef} defaultLayerRef={defaultLayerRef} activeLayer={activeLayer} />
                             <MapSettings />
+
                         </MapContainer>
+                        <div className="layer-buttons">
+                            {activeLayer}
+                            <Button variant={activeLayer === 'default' ? 'contained' : 'outlined'} color="primary" onClick={() => handleLayerButtonClick('default')}>Default</Button>
+                            <Button variant={activeLayer === 'grass' ? 'contained' : 'outlined'} color="primary" onClick={() => handleLayerButtonClick('grass')}>Grass</Button>
+                            <Button variant={activeLayer === 'road' ? 'contained' : 'outlined'} color="primary" onClick={() => handleLayerButtonClick('road')}>Road</Button>
+                            <Button variant={activeLayer === 'sidewalk' ? 'contained' : 'outlined'} color="primary" onClick={() => handleLayerButtonClick('sidewalk')}>Sidewalk</Button>
+                            <Button variant={activeLayer === 'building' ? 'contained' : 'outlined'} color="primary" onClick={() => handleLayerButtonClick('building')}>Building</Button>
+                        </div>
                     </Grid>
-                    <Grid item xs={4} style={{height: "500px"}}>
+                    <Grid item xs={4} style={{ height: "500px" }}>
                         <div style={{ height: '100%', overflow: 'auto' }}>
                             {JSON.stringify(geoJson)}
                         </div>
                     </Grid>
                 </Grid>
-
             </Box>
         </Container>
     );
 }
 
 interface MapEditorProps {
-    geoJson: GeoJsonObject | null;
+    grassLayerRef: React.MutableRefObject<L.FeatureGroup<any>>;
+    roadLayerRef: React.MutableRefObject<L.FeatureGroup<any>>;
+    sideWalkLayerRef: React.MutableRefObject<L.FeatureGroup<any>>;
+    buildingLayerRef: React.MutableRefObject<L.FeatureGroup<any>>;
+    defaultLayerRef: React.MutableRefObject<L.FeatureGroup<any>>;
+    geoJson: FeatureCollection | null;
+    setGeoJson: (geoJson: FeatureCollection) => void;
+    activeLayer: string;
 }
 
-const MapEditor: React.FC<MapEditorProps> = ({ geoJson }) => {
+const MapEditor: React.FC<MapEditorProps> = ({ setGeoJson, grassLayerRef, roadLayerRef, sideWalkLayerRef, buildingLayerRef, defaultLayerRef, activeLayer }) => {
     const map = useMap();
 
     useEffect(() => {
         if (!map) return;
 
-        // Attach Leaflet-Geoman to the map
         map.pm.addControls({
             position: 'topleft',
             drawCircle: false,
@@ -191,19 +216,69 @@ const MapEditor: React.FC<MapEditorProps> = ({ geoJson }) => {
             drawCircleMarker: false,
         });
 
-        // Event handlers for geometry
+        const updateGeoJson = () => {
+            //debugger;
+            const allLayers = map.pm.getGeomanLayers();
+
+            const updatedGeoJson: FeatureCollection = {
+                type: 'FeatureCollection',
+                features: allLayers.map((layer: L.Layer) => {
+                    if ('toGeoJSON' in layer) {
+                        return (layer as any).toGeoJSON() as geojson.Feature;
+                    }
+                    return null;
+                }).filter((feature): feature is geojson.Feature => feature !== null)
+            };
+            setGeoJson(updatedGeoJson);
+        };
+
+        const addLayerToActiveLayer = (layer: L.Layer) => {
+            console.log('addLayerToActiveLayer - ' + activeLayer);
+            switch (activeLayer) {
+                case 'grass':
+                    grassLayerRef.current.addLayer(layer);
+                    break;
+                case 'road':
+                    roadLayerRef.current.addLayer(layer);
+                    break;
+                case 'sidewalk':
+                    sideWalkLayerRef.current.addLayer(layer);
+                    break;
+                case 'building':
+                    buildingLayerRef.current.addLayer(layer);
+                    break;
+                default:
+                    defaultLayerRef.current.addLayer(layer);
+            }
+        };
+
         map.on('pm:create', (e) => {
+            const layer = e.layer;
+            const feature = (layer as any).toGeoJSON() as geojson.Feature;
+            feature.properties!.zoneType = activeLayer;
+
+            addLayerToActiveLayer(layer);
+
+            updateGeoJson();
             console.log('Created shape:', e);
         });
 
         map.on('pm:edit', (e) => {
+            updateGeoJson();
             console.log('Edited shape:', e);
         });
 
         map.on('pm:remove', (e) => {
+            updateGeoJson();
             console.log('Removed shape:', e);
         });
-    }, [map, geoJson]);
+
+        return () => {
+            map.off('pm:create');
+            map.off('pm:edit');
+            map.off('pm:remove');
+        };
+    }, [map, setGeoJson, activeLayer, defaultLayerRef, buildingLayerRef, grassLayerRef, roadLayerRef, sideWalkLayerRef]);
 
     return null;
 };
