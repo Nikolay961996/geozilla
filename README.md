@@ -59,4 +59,4 @@
 
 # Общая схема
 
-![alt text](geozilla-scheme.drawio-1.png)
+![alt text](geozilla-scheme.drawio.png)
