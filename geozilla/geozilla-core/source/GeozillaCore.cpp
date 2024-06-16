@@ -1,4 +1,5 @@
 #include "GeozillaCore.h"
+#include "GltfToPointCloudConverter.h"
 
 #include <Logger/ConsoleLogger.h>
 #include <Loader/GeoModelLoader.h>
@@ -6,11 +7,34 @@
 
 #include <CesiumGltf/Model.h>
 
-#include <pcl/point_cloud.h>
-#include <pcl/point_types.h>
+#include <algorithm>
 
 namespace
 {
+
+std::vector<gz::core::IGeoModelLoader::GeoModel> LoadGeoModels(const char* path)
+{
+    if (!path)
+        return {};
+
+    auto loader = gz::core::GeoModelLoader();
+#ifdef _DEBUG
+    loader.SetLogger(std::make_shared<gz::core::ConsoleLogger>());
+#endif
+    return loader.Load(path);
+}
+
+gz::core::GltfToPointCloudConverter::Points ConvertToPointCloud(const std::vector<gz::core::IGeoModelLoader::GeoModel>& models)
+{
+    auto pointCloud = gz::core::GltfToPointCloudConverter::Points();
+
+    std::for_each(std::begin(models), std::end(models), [&pointCloud](const auto& model)
+    {
+        gz::core::GltfToPointCloudConverter::Convert(model, pointCloud);
+    });
+
+    return pointCloud;
+}
 
 const char* ConvertToRawMemory(const std::string& data)
 {
@@ -25,23 +49,11 @@ const char* ConvertToRawMemory(const std::string& data)
 
 const char* GenerateGeoJson(const char* path)
 {
-    auto loader = gz::core::GeoModelLoader();
-#ifdef _DEBUG
-    auto logger = std::make_shared<gz::core::ConsoleLogger>();
-    loader.SetLogger(logger);
-#endif
-    loader.Load(path);
-
-    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
-    cloud->push_back(pcl::PointXYZ(1.0f, 2.0f, 3.0f));
-    cloud->push_back(pcl::PointXYZ(1.0f, 2.0f, 3.0f));
-    cloud->push_back(pcl::PointXYZ(1.0f, 2.0f, 3.0f));
-    cloud->push_back(pcl::PointXYZ(1.0f, 2.0f, 10.0f));
-    cloud->push_back(pcl::PointXYZ(1.0f, 2.0f, 10.0f));
-    cloud->push_back(pcl::PointXYZ(1.0f, 2.0f, 30.0f));
+    auto models = LoadGeoModels(path);
+    auto pointCloud = ConvertToPointCloud(models);
 
     auto splitter = ZoneSplitter();
-    std::string result = splitter.SplitToZones(cloud);
+    std::string result = splitter.SplitToZones(pointCloud);
     return ConvertToRawMemory(result);
 }
 
