@@ -33,6 +33,9 @@ target_link_libraries(${PROJECT_NAME} CesiumGltf Cesium3DTilesContent ${PCL_LIBR
 
 add_definitions(${PCL_DEFINITIONS})
 
-set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 20)
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    CXX_STANDARD 20
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/$<CONFIG>/"
+)
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCE_LIST})
