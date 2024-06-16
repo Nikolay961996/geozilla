@@ -26,7 +26,6 @@ const MapViewer: React.FC<MapViewerProps> = ({ center, zoom, geoJson, setGeoJson
 
     const layerControlRef = useRef<L.Control.Layers | null>(null);
     const mapRef = useRef<L.Map | null>(null);
-
     const [activeLayer, setActiveLayer] = useState<string>('default');
 
     useEffect(() => {
